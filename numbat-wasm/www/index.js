@@ -2,7 +2,7 @@ import init, { setup_panic_hook, Numbat, FormatType } from "./pkg/numbat_wasm.js
 
 async function fetch_exchange_rates() {
   try {
-      const response = await fetch("https://numbat.dev/ecb-exchange-rates.php");
+      const response = await fetch("https://workers-playground-broken-wave-5333.bsidhom.workers.dev/numbat/ecb-exchange-rates");
 
       if (!response.ok) {
           return;
