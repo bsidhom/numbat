@@ -79,11 +79,11 @@ function interpret(input) {
 }
 
 function setup() {
+
   $(document).ready(function() {
     var term = $('#terminal').terminal(interpret, {
         greetings: false,
         name: "terminal",
-        height: 550,
         prompt: "[[;;;prompt]>>> ]",
         checkArity: false,
         historySize: 200,
@@ -94,6 +94,24 @@ function setup() {
           cb(numbat.get_completions_for(inp));
         }
       });
+
+    const onHeightChange = (callback) => {
+      let { height } = window.visualViewport;
+      callback(height);
+      window.visualViewport.addEventListener('resize', function (event) {
+        const { height: newHeight } = window.visualViewport;
+        if (height !== newHeight) {
+          height = newHeight;
+          callback(height);
+        }
+      });
+    };
+
+    if ("visualViewport" in window) {
+      onHeightChange((height) => {
+        document.querySelector("#terminal").style.setProperty('--my-terminal-height', height);
+      });
+    }
 
     // evaluate expression in query string if supplied (via opensearch)
     if (location.search) {
